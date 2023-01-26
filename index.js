@@ -1,9 +1,11 @@
 //required files and programs.
 const inquirer = require("inquirer");
-const generateHtml = require("./html.js")
+// const generateHtml = require("./html.js")
 const fs = require("fs");
-const generateManager = require("./employees/generateManager")
-const generateDeveloper = require("./empolyees/generateDeveloper")
+const Engineer = require("./lib/Engineer");
+// const generateManager = require("./employees/generateManager")
+// const generateDeveloper = require("./empolyees/generateDeveloper")
+const team = []
 
 // these questions will be how we pull in info on the Manager. 
 const manager = [
@@ -14,24 +16,22 @@ const manager = [
   },
   {
     type: 'input',
-    time: 'managerTenure',
+    name: 'id',
     message: 'What is their ID?'
   },
   {
     type: 'input',
-    time: 'managerExperience',
+    name: 'email',
     message: 'What is their Email?',
   },
   {
     type: 'input',
-    contact: 'managerContact',
+    name: 'office',
     message:'What is their office number?',
   },
 ];
 
 // these through manager constructor. turn into object in constructor, then move to team array.
-
-//Intern/employee or Engineer?
 
 
 
@@ -40,22 +40,22 @@ const manager = [
 const intern = [
   {
     type: 'input',
-    name: 'employeeName',
+    name: 'name',
     message: 'What is the Employees name?',
   },
   {
     type: 'input',
-    time: 'employeeTenure',
+    name: 'id',
     message: 'What is their ID?',
   },
     {
     type: 'input',
-    contact: 'employeeContact',
+    name: 'email',
     message: 'Please add their Email?',
   },
   {
     type: 'input',
-    list: 'additionalEmployees',
+    name: 'school',
     message: 'What school did they attend?',
   },
   
@@ -71,22 +71,22 @@ const intern = [
 const engineer = [ // change employee to engineer.
     {
     type: 'input',
-    name: 'employeeName',
+    name: 'name',
     message: 'What is the Engineers name?',
   },
   {
     type: 'input',
-    time: 'employeeTenure',
+    name: 'id',
     message: 'What is their ID?',
   },
     {
     type: 'input',
-    contact: 'employeeContact',
+    name: 'email',
     message: 'Please add their Email?',
   },
   {
     type: 'input',
-    list: 'additionalEmployees',
+    name: 'github',
     message: 'What is their Github?', // Github
   },
 ]
@@ -108,7 +108,7 @@ function initManager() {
 
 function initIntern() {
   inquirer.prompt (intern) .then ((answers=>{
-    console.log(answer)
+    console.log(answers)
     // run answers through manager constructor
     // push new manager to global team array
     menu()
@@ -117,9 +117,11 @@ function initIntern() {
 
 function initEngineer() {
   inquirer.prompt (engineer) .then ((answers=>{
-    console.log(answer)
+    console.log(answers)
     // run answers through engineer constructor
+    const emp = new Engineer(answers.name, answers.id, answers.email, answers.github)
     // push new manager to global team array
+    team.push(emp)
     menu()
   }))
 };
